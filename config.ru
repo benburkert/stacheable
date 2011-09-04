@@ -4,14 +4,20 @@ require 'face'
 
 class App < Sinatra::Base
   get '/' do
-    {params[:src] => face?(params[:src])}.to_json
+    count = face_count(params[:src])
+
+    {
+      params[:src]  => count > 0,
+      :src          => params[:src],
+      :count        => count
+    }.to_json
   end
 
   helpers do
-    def face?(src)
+    def face_count(src)
       face_data = client.faces_detect(:urls => [src], :attributes => 'none')
 
-      !face_data['photos'].first['tags'].empty?
+      face_data['photos'].first['tags'].size
     end
 
     def client
