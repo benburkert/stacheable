@@ -7,9 +7,8 @@ class App < Sinatra::Base
     count = face_count(params[:src])
 
     {
-      params[:src]  => count > 0,
-      :src          => params[:src],
-      :count        => count
+      :src   => params[:src],
+      :count => count
     }.to_json
   end
 
